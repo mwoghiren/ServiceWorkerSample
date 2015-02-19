@@ -27,6 +27,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        window.addEventListener('message', this.onMessage, false);
     },
     // Register ServiceWorker
     //
@@ -35,8 +36,8 @@ var app = {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js', {
                 scope: '../'
-            }).then(function(serviceWorker) {
-                console.log('ServiceWorker registered.', serviceWorker);
+            }).then(function(serviceWorkerRegistration) {
+                console.log('ServiceWorker registered.', serviceWorkerRegistration);
             }).catch(function(e) {
                 console.log('ServiceWorker registration failed.', e);
             });
@@ -50,19 +51,16 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        this.registerServiceWorker();
+        app.registerServiceWorker();
+    },
+    onMessage: function(event) {
+        console.log('Received message: ' + event.data);
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
         console.log('Received Event: ' + id);
     }
 };
 
 app.initialize();
+
