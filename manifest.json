@@ -1,0 +1,10 @@
+{
+  "name": "MWoghiren Service Worker Sample",
+  "short_name": "MwSwSmplFtw",
+  "icons": [],
+  "scope": "/",
+  "start_url": "index.html",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "service_worker": "sw.js"
+}
